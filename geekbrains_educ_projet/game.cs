@@ -22,7 +22,7 @@ namespace geekbrains_educ_projet
         static Game()
         {
         }
-        public static void Init(Form form)
+        public static void Init(Form1 form)
         {
             // Графическое устройство для вывода графики            
             Graphics g;
@@ -33,6 +33,7 @@ namespace geekbrains_educ_projet
             // Запоминаем размеры формы
             Width = form.ClientSize.Width;
             Height = form.ClientSize.Height;
+           
             // Связываем буфер в памяти с графическим объектом, чтобы рисовать в буфере
             Buffer = _context.Allocate(g, new Rectangle(0, 0, Width, Height));
             Load();
@@ -79,7 +80,7 @@ namespace geekbrains_educ_projet
             }
             //star.Draw();
             Buffer.Render();
-        }
+        }   
 
         public static void Update()
         {
