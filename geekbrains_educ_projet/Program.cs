@@ -12,7 +12,13 @@ namespace geekbrains_educ_projet
     {
         static void Main(string[] args)
         {
-            Form1 form = new Form1();
+            startForm sform = new startForm();
+            sform.Width = 265;
+            sform.Height = 185;
+            sform.MaximumSize = new Size(265, 185);
+            sform.MinimumSize = new Size(265, 185);
+            sform.Show();
+            /*Form1 form = new Form1();
             form.Width = 1200;
             form.Height = 600;
             form.MaximumSize = new Size(1200, 600);
@@ -23,9 +29,9 @@ namespace geekbrains_educ_projet
                         
             Game.Init(form);
             
-            Game.Draw();
+            Game.Draw();*/
 
-            Application.Run(form);         
+            Application.Run(sform);         
 
             //Console.ReadKey();
         }

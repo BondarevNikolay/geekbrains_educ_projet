@@ -16,7 +16,7 @@ namespace geekbrains_educ_projet
         
         static int Frames = 0, xBackGround = 0;
         static public Image backgraund = Image.FromFile(@"Pictures/deep_space.jpg");
-
+        static public Timer timer = new Timer();
         static BaseObject[] _obj;
         //static Star star;
         static Game()
@@ -37,7 +37,7 @@ namespace geekbrains_educ_projet
             // Связываем буфер в памяти с графическим объектом, чтобы рисовать в буфере
             Buffer = _context.Allocate(g, new Rectangle(0, 0, Width, Height));
             Load();
-            Timer timer = new Timer();
+            
             timer.Interval = 30;
             timer.Tick += Timer_Tick;
             timer.Start();  
