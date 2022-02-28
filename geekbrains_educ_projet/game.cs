@@ -51,7 +51,7 @@ namespace geekbrains_educ_projet
             }
             for (int i = _obj.Length / 4 * 3; i < _obj.Length; i++)
             {
-                _obj[i] = new Star(new Point(0, rand.Next(0, Game.Height)), new Point(rand.Next(-10, 10), rand.Next(-10, 10)));
+                _obj[i] = new Star(new Point(Game.Width, rand.Next(0, Game.Height)), new Point(rand.Next(-10, 10), rand.Next(-10, 10)));
             }
             //star = new Star(new Point(100, 100), new Point(rand.Next(-10, 10), rand.Next(-10, 10)));
         }
