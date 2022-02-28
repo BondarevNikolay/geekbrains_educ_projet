@@ -28,26 +28,26 @@ namespace geekbrains_educ_projet
         public void Update()
         {
             Pos = new Point(Pos.X+Dir.X, Pos.Y+Dir.Y);
-            if (Pos.X < 0) // Такого быть не должно никогда, но ...
+            if (Pos.X > Game.Width) // Такого быть не должно никогда, но ...
             {
-                Pos = new Point(0, Pos.Y);
-                Dir = new Point(Game.rand.Next(1, 10), Game.rand.Next(-10, 10)); 
+                Pos = new Point(Game.Width, Pos.Y);
+                Dir = new Point(-Game.rand.Next(1, 10), Game.rand.Next(-10, 10)); 
             }
-            else if (Pos.X > Game.Width) // Перекидывает звёздочки и кружочки из конца в начачло и переопределяет вектор движения
+            else if (Pos.X < -50) // Перекидывает звёздочки и кружочки из конца в начачло и переопределяет вектор движения
             { 
-                Pos = new Point(0, Game.rand.Next(0, Game.Height));
-                Dir = new Point(Game.rand.Next(1, 10), Game.rand.Next(-10, 10));
+                Pos = new Point(Game.Width, Game.rand.Next(0, Game.Height));
+                Dir = new Point(-Game.rand.Next(1, 10), Game.rand.Next(-10, 10));
             }
             if (Pos.Y < -50) // Перекидывает звёздочки и кружочки сверху вниз при выходе за границу окна и переопределяет вектор движения. Значение -50 взято для плавности
             {
                 Pos = new Point(Pos.X, Pos.Y + Game.Height);
-                Dir = new Point(Game.rand.Next(1, 10), Game.rand.Next(-10, 0));
+                Dir = new Point(-Game.rand.Next(1, 10), Game.rand.Next(-10, 0));
 
             }
             else if (Pos.Y > Game.Height) // Перекидывает звёздочки и кружочки внизу вверх при выходе за границу окна и переопределяет вектор движения
             {
                 Pos = new Point(Pos.X, Pos.Y - Game.Height);
-                Dir = new Point(Game.rand.Next(1, 10), Game.rand.Next(0, 10));
+                Dir = new Point(-Game.rand.Next(1, 10), Game.rand.Next(0, 10));
             }
         }
 
