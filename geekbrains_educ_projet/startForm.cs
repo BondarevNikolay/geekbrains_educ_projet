@@ -7,7 +7,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Drawing;
 
 namespace geekbrains_educ_projet
 {
@@ -54,7 +53,6 @@ namespace geekbrains_educ_projet
                 MaximumSize = new Size(1200, 600),
                 MinimumSize = new Size(1200, 600)
             };
-
             form.Show();
             Game.Init(form);
             Game.Draw();

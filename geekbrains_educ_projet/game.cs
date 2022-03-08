@@ -13,11 +13,15 @@ namespace geekbrains_educ_projet
         // Ширина и высота игрового поля
         public static int Width { get; set; }
         public static int Height { get; set; }
+        public static System.Drawing.Point CursorPosition { get; }
         
-        static int Frames = 0, xBackGround = 0;
+        static int Score = 0,  Frames = 0, xBackGround = 0;
         static public Image backgraund = Image.FromFile(@"Pictures/deep_space.jpg");
         static public Timer timer = new Timer();
         static BaseObject[] _obj;
+        static public Bullet[] _bullets = new Bullet[4];
+        static public Ship _ship;
+
         //static Star star;
         static Game()
         {
@@ -33,30 +37,52 @@ namespace geekbrains_educ_projet
             // Запоминаем размеры формы
             Width = form.ClientSize.Width;
             Height = form.ClientSize.Height;
+            
            
             // Связываем буфер в памяти с графическим объектом, чтобы рисовать в буфере
             Buffer = _context.Allocate(g, new Rectangle(0, 0, Width, Height));
             Load();
-            
+            form.MouseMove += Form_MouseMove;
+            //form.MouseHover += Form_MouseHover;
             timer.Interval = 30;
             timer.Tick += Timer_Tick;
             timer.Start();  
         }
+
+        /*private static void Form_MouseHover(object sender, EventArgs e)
+        {
+            _ship.ShipUpdate(Cursor.Position.X, Cursor.Position.Y);
+        }*/
+
+        private static void Form_MouseMove(object sender, MouseEventArgs e)
+        {
+            _ship.ShipUpdate(Cursor.Position.X/* - form.Location.X*/, Cursor.Position.Y);
+        }
+
         public static void Load()
         {
-            _obj = new BaseObject[20];
+            _ship = new Ship(new Point(0, Game.Height / 2), new Point(0, 0));
+            //_bullets = new Bullet[4];
+            for (int i = 0; i < _bullets.Length; i++)
+            {
+                _bullets[i] = new Bullet(new Point(0, Game.Height / 2), new Point(10 - rand.Next(1, 9), 0));
+            }
+                _obj = new BaseObject[20];
             for (int i = 0; i < _obj.Length/4*3; i++)
             {
                 _obj[i] = new BaseObject(new Point(rand.Next(0, Game.Width), rand.Next(0, Game.Height)), new Point(rand.Next(-10, 10), rand.Next(-10, 10)), new Size(20, 20));
             }
             for (int i = _obj.Length / 4 * 3; i < _obj.Length; i++)
             {
-                _obj[i] = new Star(new Point(0, rand.Next(0, Game.Height)), new Point(rand.Next(-10, 10), rand.Next(-10, 10)));
+                _obj[i] = new Star(new Point(Game.Width, rand.Next(0, Game.Height)), new Point(rand.Next(-10, 10), rand.Next(-10, 10)));
             }
+            
+
             //star = new Star(new Point(100, 100), new Point(rand.Next(-10, 10), rand.Next(-10, 10)));
         }
         private static void Timer_Tick(object sender, EventArgs e)
         {
+
             Draw();
             Update();
         }
@@ -74,9 +100,15 @@ namespace geekbrains_educ_projet
             //Buffer.Graphics.DrawRectangle(Pens.White, new Rectangle(100, 100, 200, 200)); // Рисуем прямоугольник
             //Buffer.Graphics.FillEllipse(Brushes.Wheat, new Rectangle(100, 100, 200, 200)); // Рисуем круг
             Buffer.Graphics.DrawString($"Frames:{Frames}", SystemFonts.DefaultFont, Brushes.AntiqueWhite, 1000, 0);
+            Buffer.Graphics.DrawString($"Score:{Score}", SystemFonts.DefaultFont, Brushes.AntiqueWhite, 900, 0);
+            _ship.Draw();
             foreach (BaseObject obj in _obj)
             {
                 obj.Draw();
+            }
+            foreach (Bullet bullet in _bullets)
+            {
+                bullet.Draw();
             }
             //star.Draw();
             Buffer.Render();
@@ -89,11 +121,30 @@ namespace geekbrains_educ_projet
             {
                 xBackGround = 0;
             }
-            foreach (BaseObject obj in _obj)
+            for (int j = 0; j < _obj.Length; j++)
             {
-                obj.Update();
+                for (int i = 0; i < _bullets.Length; i++)
+                {
+                    if (_bullets[i].Collision(_obj[j]))
+                    {
+                        if (_obj[j] is Star)
+                        {
+                            Score++;
+                            _bullets[i] = new Bullet(new Point(Game._ship.Rect.Location.X, Game._ship.Rect.Location.Y), new Point(10 - rand.Next(1, 9), rand.Next(-3, 3)));
+                            _obj[j] = new Star(new Point(Game.Width, rand.Next(0, Game.Height)), new Point(rand.Next(-10, 10), rand.Next(-10, 10)));
+                        }
+                    }
+                }
+                _obj[j].Update();
+                
                 //star.Update();
             }
+            foreach (Bullet bullet in _bullets)
+            {
+                bullet.Update();
+            }
+            _ship.ShipUpdate(CursorPosition.X, CursorPosition.Y);
+            //_ship.ShipUpdate(Cursor.Position.X /*- form.Location.X*/, Cursor.Position.Y);
         }
 
     }

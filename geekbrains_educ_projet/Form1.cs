@@ -27,19 +27,7 @@ namespace geekbrains_educ_projet
             ppButton.Location = new Point(0, 0);
             this.Controls.Add(ppButton);
             ppButton.Click += new EventHandler(startButton_Click);
-            /*
-            recordsButton.Text = "Records";
-            recordsButton.Size = new Size(75, 25);
-            recordsButton.Location = new Point(80, 0);
-            this.Controls.Add(recordsButton);
-            recordsButton.Click += new EventHandler(recordsButton_Click);
-
-            optionButton.Text = "Option";
-            optionButton.Size = new Size(75, 25);
-            optionButton.Location = new Point(160, 0);
-            this.Controls.Add(optionButton);
-            optionButton.Click += new EventHandler(optionButton_Click);
-            */
+            
             exitButton.Text = "Exit";
             exitButton.Size = new Size(75, 25);
             exitButton.Location = new Point(1100, 0);
