@@ -75,11 +75,15 @@ namespace geekbrains_educ_projet
     internal class Ship : BaseObject
     {
         static Image img = Image.FromFile(@"Pictures/SpaceShip.jpg");
+        
 
         public Ship(Point pos, Point dir) : base(pos, dir, new Size(img.Width, img.Height))
         {
         }
-
+        public void ShipUpdate(int x, int y)
+        {
+            Pos = new Point(x, y);
+        }
         public override void Draw()
         {
             Game.Buffer.Graphics.DrawImage(img, Pos);
@@ -100,18 +104,12 @@ namespace geekbrains_educ_projet
         }
         public override void Update()
         {
-                /*for (int i = 0; i < Game._bullets.Length; i++)
-                {
-                    if (Game._bullets[i].Collision())
-                    {
-                        Game._bullets[i].Pos = new Point(, 0);
-                    }
-                }*/
             Pos = new Point(Pos.X + Dir.X, Pos.Y + Dir.Y);
             
             if (Pos.X > Game.Width || Pos.Y < -30 || Pos.Y > Game.Height + 30)
             {
-                Pos = new Point(0, Game.Height/2);
+                Pos = new Point(Game._ship.Rect.Location.X, Game._ship.Rect.Location.Y);
+                //Pos = new Point(0, Game.Height/2);
                 Dir = new Point(10 - Game.rand.Next(1, 9), Game.rand.Next(-3,3));
             }
         }
