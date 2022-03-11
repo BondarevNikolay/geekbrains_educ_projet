@@ -29,7 +29,7 @@ namespace geekbrains_educ_projet
 
         public virtual void Update()
         {
-            Pos = new Point(Pos.X+Dir.X, Pos.Y+Dir.Y);
+            /*Pos = new Point(Pos.X+Dir.X, Pos.Y+Dir.Y);
             if (Pos.X > Game.Width) // Такого быть не должно никогда, но ...
             {
                 Pos = new Point(Game.Width, Pos.Y);
@@ -50,7 +50,7 @@ namespace geekbrains_educ_projet
             {
                 Pos = new Point(Pos.X, Pos.Y - Game.Height);
                 Dir = new Point(-Game.rand.Next(1, 10), Game.rand.Next(0, 10));
-            }
+            }*/
         }
 
         public bool Collision(ICollision obj)
@@ -70,6 +70,31 @@ namespace geekbrains_educ_projet
         public override void Draw()
         {
             Game.Buffer.Graphics.DrawImage(img, Pos);
+        }
+        public override void Update()
+        {
+            Pos = new Point(Pos.X + Dir.X, Pos.Y + Dir.Y);
+            if (Pos.X > Game.Width) // Такого быть не должно никогда, но ...
+            {
+                Pos = new Point(Game.Width, Pos.Y);
+                Dir = new Point(-Game.rand.Next(1, 4), Game.rand.Next(-4, 4));
+            }
+            else if (Pos.X < -50) // Перекидывает звёздочки и кружочки из конца в начачло и переопределяет вектор движения
+            {
+                Pos = new Point(Game.Width, Game.rand.Next(0, Game.Height));
+                Dir = new Point(-Game.rand.Next(1, 4), Game.rand.Next(-4, 4));
+            }
+            if (Pos.Y < -50) // Перекидывает звёздочки и кружочки сверху вниз при выходе за границу окна и переопределяет вектор движения. Значение -50 взято для плавности
+            {
+                Pos = new Point(Pos.X, Pos.Y + Game.Height);
+                Dir = new Point(-Game.rand.Next(1, 4), Game.rand.Next(-4, 0));
+
+            }
+            else if (Pos.Y > Game.Height) // Перекидывает звёздочки и кружочки внизу вверх при выходе за границу окна и переопределяет вектор движения
+            {
+                Pos = new Point(Pos.X, Pos.Y - Game.Height);
+                Dir = new Point(-Game.rand.Next(1, 4), Game.rand.Next(0, 4));
+            }
         }
     }
     internal class Ship : BaseObject
@@ -108,13 +133,86 @@ namespace geekbrains_educ_projet
             
             if (Pos.X > Game.Width || Pos.Y < -30 || Pos.Y > Game.Height + 30)
             {
-                Pos = new Point(Game._ship.Rect.Location.X, Game._ship.Rect.Location.Y);
-                //Pos = new Point(0, Game.Height/2);
-                Dir = new Point(10 - Game.rand.Next(1, 9), Game.rand.Next(-3,3));
+                Game._bullets2.Remove(this);
+                /*Pos = new Point(Game._ship.Rect.Location.X, Game._ship.Rect.Location.Y);
+                Dir = new Point(10 - Game.rand.Next(1, 9), Game.rand.Next(-3,3));*/
             }
         }
     }
+    internal class SmallAsteroid : BaseObject
+    {
+        static Image img = Image.FromFile(@"Pictures/SmallAsteroid.png");
 
+        public SmallAsteroid(Point pos, Point dir) : base(pos, dir, new Size(img.Width, img.Height))
+        {
+        }
 
+        public override void Draw()
+        {
+            Game.Buffer.Graphics.DrawImage(img, Pos);
+        }
+        public override void Update()
+        {
+            Pos = new Point(Pos.X + Dir.X, Pos.Y + Dir.Y);
+            if (Pos.X > Game.Width) // Такого быть не должно никогда, но ...
+            {
+                Pos = new Point(Game.Width, Pos.Y);
+                Dir = new Point(-Game.rand.Next(1, 8), Game.rand.Next(-5, 5));
+            }
+            else if (Pos.X < -50) // Перекидывает звёздочки и кружочки из конца в начачло и переопределяет вектор движения
+            {
+                Pos = new Point(Game.Width, Game.rand.Next(0, Game.Height));
+                Dir = new Point(-Game.rand.Next(1, 8), Game.rand.Next(-5, 5));
+            }
+            if (Pos.Y < -50) // Перекидывает звёздочки и кружочки сверху вниз при выходе за границу окна и переопределяет вектор движения. Значение -50 взято для плавности
+            {
+                Pos = new Point(Pos.X, Pos.Y + Game.Height);
+                Dir = new Point(-Game.rand.Next(1, 8), Game.rand.Next(-5, 0));
 
+            }
+            else if (Pos.Y > Game.Height) // Перекидывает звёздочки и кружочки внизу вверх при выходе за границу окна и переопределяет вектор движения
+            {
+                Pos = new Point(Pos.X, Pos.Y - Game.Height);
+                Dir = new Point(-Game.rand.Next(1, 8), Game.rand.Next(0, 5));
+            }
+        }
+    }
+    internal class BigAsteroid : BaseObject
+    {
+        static Image img = Image.FromFile(@"Pictures/BigAsteroid.png");
+
+        public BigAsteroid(Point pos, Point dir) : base(pos, dir, new Size(img.Width, img.Height))
+        {
+        }
+
+        public override void Draw()
+        {
+            Game.Buffer.Graphics.DrawImage(img, Pos);
+        }
+        public override void Update()
+        {
+            Pos = new Point(Pos.X+Dir.X, Pos.Y+Dir.Y);
+            if (Pos.X > Game.Width) // Такого быть не должно никогда, но ...
+            {
+                Pos = new Point(Game.Width, Pos.Y);
+                Dir = new Point(-Game.rand.Next(1, 5), Game.rand.Next(-3, 3)); 
+            }
+            else if (Pos.X < -50) // Перекидывает звёздочки и кружочки из конца в начачло и переопределяет вектор движения
+            { 
+                Pos = new Point(Game.Width, Game.rand.Next(0, Game.Height));
+                Dir = new Point(-Game.rand.Next(1, 5), Game.rand.Next(-3, 3));
+            }
+            if (Pos.Y < -50) // Перекидывает звёздочки и кружочки сверху вниз при выходе за границу окна и переопределяет вектор движения. Значение -50 взято для плавности
+            {
+                Pos = new Point(Pos.X, Pos.Y + Game.Height);
+                Dir = new Point(-Game.rand.Next(1, 5), Game.rand.Next(-3, 0));
+
+            }
+            else if (Pos.Y > Game.Height) // Перекидывает звёздочки и кружочки внизу вверх при выходе за границу окна и переопределяет вектор движения
+            {
+                Pos = new Point(Pos.X, Pos.Y - Game.Height);
+                Dir = new Point(-Game.rand.Next(1, 5), Game.rand.Next(0, 3));
+            }
+        }
+    }
 }

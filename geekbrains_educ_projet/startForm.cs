@@ -16,6 +16,13 @@ namespace geekbrains_educ_projet
         public Button recordsButton = new Button();
         public Button optionButton = new Button();
         public Button exitButton = new Button();
+        public Form1 form = new Form1
+        {
+            Width = 1200,
+            Height = 600,
+            MaximumSize = new Size(1200, 600),
+            MinimumSize = new Size(1200, 600)
+        };
         public startForm()
         {
             InitializeComponent();
@@ -46,13 +53,13 @@ namespace geekbrains_educ_projet
         }
         private void startButton_Click(object sender, System.EventArgs e)
         {
-            Form1 form = new Form1
+            /*Form1 form = new Form1
             {
                 Width = 1200,
                 Height = 600,
                 MaximumSize = new Size(1200, 600),
                 MinimumSize = new Size(1200, 600)
-            };
+            };*/
             form.Show();
             Game.Init(form);
             Game.Draw();
